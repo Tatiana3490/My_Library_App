@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 1. Tema oscuro ON/OFF -->
+    <SwitchPreference
+        android:key="pref_dark_mode"
+        android:title="@string/pref_title_dark_mode"
+        android:summary="@string/pref_summary_dark_mode"
+        android:defaultValue="false" />
+
+    <!-- 2. Orden de la lista -->
+    <ListPreference
+        android:key="pref_sort_order"
+        android:title="@string/pref_title_sort_order"
+        android:entries="@array/pref_entries_sort_order"
+        android:entryValues="@array/pref_values_sort_order"
+        android:defaultValue="alphabetical"
+        android:summary="%s" />
+
+    <!-- 3. Categorías favoritas (multi-selección) -->
+    <MultiSelectListPreference
+        android:key="pref_favorite_categories"
+        android:title="@string/pref_title_favorite_cats"
+        android:entries="@array/pref_entries_categories"
+        android:entryValues="@array/pref_values_categories"
+        android:defaultValue="@array/pref_values_categories"
+        android:summary="%s" />
+
+</androidx.preference.PreferenceScreen>

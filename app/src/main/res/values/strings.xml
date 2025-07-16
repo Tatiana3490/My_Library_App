@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">My Library App</string>
+    <!-- Títulos y descripciones de las preferencias -->
+    <string name="pref_title_dark_mode">Tema oscuro</string>
+    <string name="pref_summary_dark_mode">Activa o desactiva el modo oscuro</string>
+
+    <string name="pref_title_sort_order">Orden de la lista</string>
+    <string name="pref_summary_sort_order">Selecciona cómo quieres ordenar los libros</string>
+
+    <string name="pref_title_favorite_cats">Categorías favoritas</string>
+    <string name="pref_summary_favorite_cats">Elige las categorías que más te gustan</string>
+
+    <!-- Para el menú de Ajustes -->
+    <string name="menu_settings">Ajustes</string>
+</resources>

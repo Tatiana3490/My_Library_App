@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Opciones de orden -->
+    <string-array name="pref_entries_sort_order">
+        <item>Alfabético</item>
+        <item>Más recientes</item>
+        <item>Por precio</item>
+    </string-array>
+    <string-array name="pref_values_sort_order">
+        <item>alphabetical</item>
+        <item>recent</item>
+        <item>price</item>
+    </string-array>
+
+    <!-- Opciones de categorías -->
+    <string-array name="pref_entries_categories">
+        <item>Fantasía</item>
+        <item>Drama</item>
+        <item>Política</item>
+        <item>Ciencia ficción</item>
+    </string-array>
+    <string-array name="pref_values_categories">
+        <item>fantasy</item>
+        <item>drama</item>
+        <item>politics</item>
+        <item>scifi</item>
+    </string-array>
+</resources>
