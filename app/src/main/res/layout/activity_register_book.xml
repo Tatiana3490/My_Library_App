@@ -1,89 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".RegisterBook" >
+    tools:context=".view.AddBookView">
 
-    <Button
-        android:id="@+id/add_book"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Añadir"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+    <!-- FORMULARIO DE LIBRO -->
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:id="@+id/form_container"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Título del libro -->
         <EditText
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:hint="Título"
             android:inputType="text" />
 
+        <!-- Autor del libro -->
         <EditText
-            android:id="@+id/autthor"
+            android:id="@+id/author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:hint="Autor"
             android:inputType="text" />
 
+        <!-- Género del libro -->
         <EditText
-            android:id="@+id/category"
+            android:id="@+id/genre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Categoría"
+            android:hint="Género"
             android:inputType="text" />
 
+        <!-- Categoría del libro (id) -->
+        <EditText
+            android:id="@+id/bookCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Categoría (ID)"
+            android:inputType="number" />
+
+        <!-- Número de páginas -->
         <EditText
             android:id="@+id/pages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:hint="Número de páginas"
             android:inputType="number" />
 
+        <!-- Precio del libro -->
         <EditText
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:hint="Precio"
             android:inputType="numberDecimal" />
 
+        <!-- Checkbox para marcar si está disponible -->
+        <CheckBox
+            android:id="@+id/available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disponible" />
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+
+    <!-- MAPA para seleccionar ubicación -->
+    <com.mapbox.maps.MapView
+        android:id="@+id/registerMapView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/add_book"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:layout_editor_absoluteX="1dp">
+        app:layout_constraintTop_toBottomOf="@+id/form_container"
+        app:layout_constraintBottom_toTopOf="@+id/add_book_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:mapbox_cameraTargetLat="39.8581"
+        app:mapbox_cameraTargetLng="-4.02263"
+        app:mapbox_cameraZoom="11.0" />
 
-        <com.mapbox.maps.MapView
-            android:id="@+id/registerMapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:mapbox_cameraTargetLat="39.8581"
-            app:mapbox_cameraTargetLng="-4.02263"
-            app:mapbox_cameraZoom="11.0" >
-        </com.mapbox.maps.MapView>
+    <!-- BOTÓN para guardar -->
+    <Button
+        android:id="@+id/add_book_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Añadir libro"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

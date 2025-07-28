@@ -10,6 +10,9 @@
     <string name="pref_title_favorite_cats">Categorías favoritas</string>
     <string name="pref_summary_favorite_cats">Elige las categorías que más te gustan</string>
 
+    <string name="book_cover">Imagen del libro</string>
+    <string name="favorite">Marcar como favorito</string>
+
     <!-- Para el menú de Ajustes -->
     <string name="menu_settings">Ajustes</string>
 </resources>

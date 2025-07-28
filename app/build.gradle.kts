@@ -14,11 +14,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-  //  buildFeatures {
-  //      buildConfig = true
- //   }
-
-
     }
 
     buildTypes {
@@ -45,41 +40,12 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.preference)
+    implementation(libs.room.common.jvm)
+    implementation(libs.room.runtime.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // Core libraries
-  /*  implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.activity)
-    implementation(libs.constraintlayout)
-    implementation(libs.recyclerview)
-    implementation(libs.recyclerviewSelection)
-    implementation(libs.preference)
 
-    // Networking
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-    // Mapbox SDK and annotation plugin via version catalog
-   // implementation(libs.mapboxSdk)
-    //implementation(libs.annotationPlugin)
-    implementation("com.mapbox.maps:android:10.15.1")
-    implementation("com.mapbox.maps:plugin-annotation:10.15.1")
-
-    // Room database
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-
-    // Image loading con Glide
-    implementation("com.github.bumptech.glide:glide:4.15.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.15.0")
-
-    // Testing
-    testImplementation(libs.junit)
-    testImplementation("org.mockito:mockito-core:5.0.0")
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)*/
 }
