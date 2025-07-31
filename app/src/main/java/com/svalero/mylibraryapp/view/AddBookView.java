@@ -45,14 +45,12 @@ public class AddBookView extends AppCompatActivity implements RegisterBookContra
 
         presenter = new RegisterBookPresenter(this, getApplicationContext());
 
-
         // Iniciamos el mapa y sus funcionalidades
         initializeMapView();
         pointAnnotationManager = MapUtil.initializePointAnnotationManager(mapView);
         initializeGesturesPlugin();
     }
 
-    // Método que se llama al pulsar el botón "Añadir"
     public void register(View view) {
         if (currentPoint == null) {
             Toast.makeText(this, "Debes seleccionar una ubicación", Toast.LENGTH_LONG).show();
@@ -60,33 +58,48 @@ public class AddBookView extends AppCompatActivity implements RegisterBookContra
         }
 
         try {
-            // Obtenemos los valores del formulario
-            String title = ((EditText) findViewById(R.id.title)).getText().toString();
-            String genre = ((EditText) findViewById(R.id.genre)).getText().toString();
-            int pages = Integer.parseInt(((EditText) findViewById(R.id.pages)).getText().toString());
-            double price = Double.parseDouble(((EditText) findViewById(R.id.price)).getText().toString());
-            int categoryId = Integer.parseInt(((EditText) findViewById(R.id.bookCategory)).getText().toString());
+            String title = ((EditText) findViewById(R.id.title)).getText().toString().trim();
+            String genre = ((EditText) findViewById(R.id.genre)).getText().toString().trim();
+            String pagesStr = ((EditText) findViewById(R.id.pages)).getText().toString().trim();
+            String priceStr = ((EditText) findViewById(R.id.price)).getText().toString().trim();
+            String categoryIdStr = ((EditText) findViewById(R.id.bookCategory)).getText().toString().trim();
             boolean available = ((CheckBox) findViewById(R.id.available)).isChecked();
 
-            // Creamos el objeto Book
-            Book book = new Book(title, genre, categoryId, pages, price, available, currentPoint.latitude(), currentPoint.longitude());
-            book.setIsFavorite(false);
+            // Validaciones de campos
+            if (title.isEmpty() || genre.isEmpty() || pagesStr.isEmpty() || priceStr.isEmpty() || categoryIdStr.isEmpty()) {
+                showErrorMessage("Por favor, completa todos los campos.");
+                return;
+            }
 
-            // Lo enviamos al presentador para que se guarde
+            int pages = Integer.parseInt(pagesStr);
+            double price = Double.parseDouble(priceStr);
+            int categoryId = Integer.parseInt(categoryIdStr);
+
+            if (pages <= 0) {
+                showErrorMessage("El número de páginas debe ser mayor que 0.");
+                return;
+            }
+
+            if (price < 0) {
+                showErrorMessage("El precio no puede ser negativo.");
+                return;
+            }
+
+            Book book = new Book(title, genre, categoryId, pages, price, available, currentPoint.latitude(), currentPoint.longitude());
+            book.setFavorite(false);
+
             presenter.registerBook(book);
 
-        } catch (NumberFormatException nfe) {
-            showErrorMessage("Por favor, revisa los valores introducidos.");
+        } catch (NumberFormatException e) {
+            showErrorMessage("Introduce valores válidos para páginas, precio y categoría.");
         }
     }
 
-    // Mostrar mensaje de error
     @Override
     public void showErrorMessage(String message) {
         Snackbar.make(findViewById(R.id.add_book_button), message, BaseTransientBottomBar.LENGTH_INDEFINITE).show();
     }
 
-    // Mostrar mensaje de éxito y cerrar la actividad
     @Override
     public void showSuccessMessage(String message) {
         Snackbar.make(findViewById(R.id.add_book_button), message, BaseTransientBottomBar.LENGTH_SHORT).show();
@@ -97,7 +110,6 @@ public class AddBookView extends AppCompatActivity implements RegisterBookContra
         finish();
     }
 
-    // Inicializamos el MapView con el estilo por defecto
     private void initializeMapView() {
         mapView = findViewById(R.id.registerMapView);
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, this);
@@ -108,13 +120,11 @@ public class AddBookView extends AppCompatActivity implements RegisterBookContra
         // Aquí podrías hacer más cosas si quieres añadir capas, estilos, etc.
     }
 
-    // Activamos los gestos del mapa (clic, arrastre, zoom, etc.)
     private void initializeGesturesPlugin() {
         gesturesPlugin = GesturesUtils.getGestures(mapView);
         gesturesPlugin.addOnMapClickListener(this);
     }
 
-    // Añadir marcador en el mapa
     private void addMarker(double latitude, double longitude) {
         PointAnnotationOptions marker = new PointAnnotationOptions()
                 .withIconImage(BitmapFactory.decodeResource(getResources(), R.mipmap.red_marker))
@@ -122,12 +132,11 @@ public class AddBookView extends AppCompatActivity implements RegisterBookContra
         pointAnnotationManager.create(marker);
     }
 
-    // Se ejecuta al hacer clic en el mapa
     @Override
     public boolean onMapClick(@NonNull Point point) {
-        pointAnnotationManager.deleteAll(); // Limpiamos marcadores previos
-        currentPoint = point; // Guardamos la nueva ubicación
-        addMarker(point.latitude(), point.longitude()); // Añadimos marcador
+        pointAnnotationManager.deleteAll();
+        currentPoint = point;
+        addMarker(point.latitude(), point.longitude());
         return true;
     }
 }

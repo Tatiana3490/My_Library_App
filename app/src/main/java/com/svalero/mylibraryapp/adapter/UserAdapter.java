@@ -20,8 +20,7 @@ import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
 
-    private List<User> userList;
-
+    private final List<User> userList;
 
     public UserAdapter(List<User> userList) {
         this.userList = userList;
@@ -29,23 +28,33 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
 
     @NonNull
     @Override
-    public UserAdapter.UserHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Infla el layout de cada usuario
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.user_item, parent, false);
         return new UserHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserAdapter.UserHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserHolder holder, int position) {
+        // Obtiene el usuario actual
         User user = userList.get(position);
+
+        // Asigna nombre y correo
         holder.userName.setText(user.getName());
         holder.userEmail.setText(user.getEmail());
 
+        // Al hacer clic, lanza la vista de detalles del usuario
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), UserDetailView.class);
             intent.putExtra("user", user);
-            //view.getContext().startActivity(intent);
-            ((UserListView) view.getContext()).startActivityForResult(intent, REQUEST_USER_DETAIL);
+
+            // Asegúrate de que el contexto es la activity esperada
+            if (view.getContext() instanceof UserListView) {
+                ((UserListView) view.getContext()).startActivityForResult(intent, REQUEST_USER_DETAIL);
+            } else {
+                view.getContext().startActivity(intent);
+            }
         });
     }
 
@@ -54,14 +63,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
         return userList.size();
     }
 
-    public class UserHolder extends RecyclerView.ViewHolder {
+    // ViewHolder para mostrar cada ítem del usuario
+    public static class UserHolder extends RecyclerView.ViewHolder {
 
-        private TextView userName;
-        private TextView userEmail;
+        TextView userName;
+        TextView userEmail;
 
         public UserHolder(@NonNull View itemView) {
             super(itemView);
-
             userName = itemView.findViewById(R.id.item_userName);
             userEmail = itemView.findViewById(R.id.item_userEmail);
         }

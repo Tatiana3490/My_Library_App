@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Representa un usuario en la aplicación.
@@ -18,13 +18,13 @@ public class User implements Parcelable {
     private String username;
     private String password;
     private String email;
-    private Date creationDate;
+    private LocalDate creationDate; // Vamos a usar LocalDate en TODO
     private boolean active;
 
     /**
      * Constructor usado para crear un usuario desde cero.
      */
-    public User(String name, String username, String password, String email, Date creationDate, boolean active) {
+    public User(String name, String username, String password, String email, LocalDate creationDate, boolean active) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -42,7 +42,8 @@ public class User implements Parcelable {
         username = in.readString();
         password = in.readString();
         email = in.readString();
-        creationDate = (Date) in.readSerializable(); // Sí, esto funciona. Pero sí, también es un poco feo.
+        String dateString = in.readString(); // Recuperamos fecha como string
+        creationDate = LocalDate.parse(dateString); // Parseamos el string a LocalDate
         active = in.readByte() != 0; // 1 = true, 0 = false
     }
 
@@ -61,7 +62,6 @@ public class User implements Parcelable {
         }
     };
 
-    // Parcelable: describeContents() casi siempre devuelve 0.
     @Override
     public int describeContents() {
         return 0;
@@ -77,11 +77,11 @@ public class User implements Parcelable {
         dest.writeString(username);
         dest.writeString(password);
         dest.writeString(email);
-        dest.writeSerializable(creationDate); // Sí, Date es Serializable, así que esto cuela
+        dest.writeString(creationDate.toString()); // Guardamos fecha como texto ISO (aaaa-MM-dd)
         dest.writeByte((byte) (active ? 1 : 0));
     }
 
-    // --- Getters y Setters: lo que Android Studio genera para ganarse el sueldo ---
+    // --- Getters y Setters: con LocalDate ya, no java.util.Date ---
 
     public long getId() {
         return id;
@@ -91,11 +91,11 @@ public class User implements Parcelable {
         this.id = id;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 

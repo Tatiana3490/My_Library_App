@@ -1,6 +1,7 @@
 package com.svalero.mylibraryapp.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.svalero.mylibraryapp.api.BooksApi;
 import com.svalero.mylibraryapp.api.BooksApiInterface;
@@ -34,26 +35,28 @@ public class BookListModel implements BookListContract.Model {
                 if (response.code() == 200 && response.body() != null) {
                     List<Book> apiBooks = response.body();
 
+                    // Guardamos libros en Room en hilo separado
                     new Thread(() -> {
                         try {
                             AppDatabase db = AppDatabase.getInstance(context);
                             BookDao bookDao = db.bookDao();
 
+                            // Actualización segura: borrar todo y meter lo nuevo
                             bookDao.deleteAll();
-                            for (Book book : apiBooks) {
-                                bookDao.insert(book);
-                            }
+                            bookDao.insertAll(apiBooks);
 
+                            // Obtenemos desde base local para asegurarnos
                             List<Book> localBooks = bookDao.getAllBooks();
                             listener.onLoadBooksSuccess(localBooks);
 
                         } catch (Exception e) {
+                            Log.e("BookListModel", "Error guardando en Room", e);
                             listener.onLoadBooksError("Error al guardar datos: " + e.getMessage());
                         }
                     }).start();
 
                 } else if (response.code() == 500) {
-                    listener.onLoadBooksError("La API no está disponible.");
+                    listener.onLoadBooksError("La API está en huelga (500).");
                 } else {
                     listener.onLoadBooksError("Código de error: " + response.code());
                 }
@@ -61,23 +64,22 @@ public class BookListModel implements BookListContract.Model {
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
+                // Si la API falla, tiramos de la copia local (si existe)
                 new Thread(() -> {
                     try {
                         AppDatabase db = AppDatabase.getInstance(context);
                         BookDao bookDao = db.bookDao();
                         List<Book> localBooks = bookDao.getAllBooks();
 
-                        if (localBooks.isEmpty()) {
-                            listener.onLoadBooksError("No hay conexión y no hay datos locales.");
+                        if (localBooks == null || localBooks.isEmpty()) {
+                            listener.onLoadBooksError("No hay conexión y tampoco libros locales.");
                         } else {
+                            listener.onOfflineMode(); // Ahora lo llamamos correctamente
                             listener.onLoadBooksSuccess(localBooks);
-
-                            if (listener instanceof BookListContract.Presenter) {
-                                ((BookListContract.Presenter) listener).onOfflineMode();
-                            }
                         }
                     } catch (Exception e) {
-                        listener.onLoadBooksError("Error local: " + e.getMessage());
+                        Log.e("BookListModel", "Error accediendo a Room", e);
+                        listener.onLoadBooksError("Error local inesperado: " + e.getMessage());
                     }
                 }).start();
             }

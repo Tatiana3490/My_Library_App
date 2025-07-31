@@ -3,6 +3,7 @@ package com.svalero.mylibraryapp.db;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -21,6 +22,9 @@ public interface BookDao {
     @Insert
     void insert(Book book);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Book> books);
+
     // Obtener todos los libros
     @Query("SELECT * FROM books")
     List<Book> getAllBooks();
@@ -30,11 +34,11 @@ public interface BookDao {
     void deleteAll();
 
     // Obtener solo los libros marcados como favoritos
-    @Query("SELECT * FROM books WHERE isFavorite = 1")
+    @Query("SELECT * FROM books WHERE favorite = 1")
     List<Book> getFavoriteBooks();
 
     // Marcar o desmarcar como favorito
-    @Query("UPDATE books SET isFavorite = :favorite WHERE id = :bookId")
+    @Query("UPDATE books SET favorite = :favorite WHERE id = :bookId")
     void setFavorite(long bookId, boolean favorite);
 
     // Borrar un libro individual

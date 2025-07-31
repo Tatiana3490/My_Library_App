@@ -28,18 +28,27 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
     private List<Book> bookList;
     private BookDao bookDao;
 
+    /**
+     * Constructor: recibe lista de libros y contexto para acceder a la base de datos local.
+     */
     public BookAdapter(List<Book> bookList, Context context) {
         this.bookList = bookList;
 
+        // Inicializa Room DB para poder actualizar campo favorito
         AppDatabase db = Room.databaseBuilder(
-                context,
-                AppDatabase.class,
-                "mylibraryapp-db"
-        ).fallbackToDestructiveMigration().allowMainThreadQueries().build();
+                        context,
+                        AppDatabase.class,
+                        "mylibraryapp-db"
+                ).fallbackToDestructiveMigration()
+                .allowMainThreadQueries() // ⚠️ cuidado: esto solo es aceptable si el dataset es pequeño
+                .build();
 
         this.bookDao = db.bookDao();
     }
 
+    /**
+     * Crea un nuevo `ViewHolder` inflando el layout de cada item.
+     */
     @NonNull
     @Override
     public BookAdapter.BookHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,24 +57,27 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
         return new BookHolder(view);
     }
 
+    /**
+     * Asigna los valores a los elementos visuales de cada item.
+     */
     @Override
     public void onBindViewHolder(@NonNull BookAdapter.BookHolder holder, int position) {
         Book book = bookList.get(position);
 
+        // Muestra el título
         holder.bookTitle.setText(book.getTitle());
 
-        // Cambia el icono según el estado actual del favorito
-        if (book.isFavorite()) {
-            holder.favoriteButton.setImageResource(R.drawable.ic_star_filled);
-        } else {
-            holder.favoriteButton.setImageResource(R.drawable.ic_star_outline);
-        }
+        // Cambia la imagen del botón según favorito
+        holder.favoriteButton.setImageResource(
+                book.isFavorite() ? R.drawable.ic_star_filled : R.drawable.ic_star_outline
+        );
 
-        // Manejador para ir al detalle
+        // Abre detalle al pulsar cualquier parte del item
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), BookDetailView.class);
-            intent.putExtra("book", book);
+            intent.putExtra("book", book); // book es Parcelable
 
+            // Si estás en BookListView, usa startActivityForResult
             if (view.getContext() instanceof BookListView) {
                 ((BookListView) view.getContext()).startActivityForResult(intent, REQUEST_BOOK_DETAIL);
             } else {
@@ -73,28 +85,33 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
             }
         });
 
-        // Toggle favorito al pulsar la estrella
+        // Al pulsar la estrella se cambia el estado de favorito
         holder.favoriteButton.setOnClickListener(v -> {
             boolean newState = !book.isFavorite();
-            book.setIsFavorite(newState); // Actualiza en el objeto local
-            bookDao.setFavorite(book.getId(), newState); // Actualiza en la base de datos
+            book.setFavorite(newState); // Cambia el estado en memoria
+            bookDao.setFavorite(book.getId(), newState); // Y en Room
 
-            // Cambia la imagen del botón
+            // Actualiza la estrella visualmente
             holder.favoriteButton.setImageResource(
                     newState ? R.drawable.ic_star_filled : R.drawable.ic_star_outline
             );
 
-            notifyItemChanged(holder.getAdapterPosition()); // Refresca solo este item
+            notifyItemChanged(holder.getAdapterPosition()); // Refresca el item
         });
     }
 
+    /**
+     * Devuelve el número de libros a mostrar.
+     */
     @Override
     public int getItemCount() {
         return bookList.size();
     }
 
+    /**
+     * ViewHolder para los elementos del RecyclerView.
+     */
     public class BookHolder extends RecyclerView.ViewHolder {
-
         private TextView bookTitle;
         ImageButton favoriteButton;
 

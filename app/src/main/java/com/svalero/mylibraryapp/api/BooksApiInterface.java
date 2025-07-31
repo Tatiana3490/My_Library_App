@@ -21,11 +21,17 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface BooksApiInterface {
+
     // --- Auth ---
     @POST("auth/login")
     Call<AuthResponse> login(@Body AuthRequest credentials);
 
     // --- Usuarios ---
+    // Sin filtros
+    @GET("users")
+    Call<List<User>> getAllUsers();
+
+    // Con filtros
     @GET("users")
     Call<List<User>> getAllUsers(
             @Query("active") Boolean active,
@@ -73,8 +79,6 @@ public interface BooksApiInterface {
 
     @DELETE("book-categories/{id}")
     Call<Void> deleteCategory(@Path("id") long id);
-
-
 
     // --- Libros ---
     @GET("books")

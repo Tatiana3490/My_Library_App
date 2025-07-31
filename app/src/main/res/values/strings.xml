@@ -13,6 +13,17 @@
     <string name="book_cover">Imagen del libro</string>
     <string name="favorite">Marcar como favorito</string>
 
+    <string name="fab_users">Ver usuarios</string>
+
+    <string name="action_map">Ver Mapa</string>
+    <string name="action_register_book">Registrar Libro</string>
+    <string name="action_view_favorites">Favoritos</string>
+
+    <string name="fab_add_user">Añadir usuario</string>
+
     <!-- Para el menú de Ajustes -->
     <string name="menu_settings">Ajustes</string>
+
+
+
 </resources>
