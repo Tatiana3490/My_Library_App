@@ -1,29 +1,37 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Nombre de la app -->
     <string name="app_name">My Library App</string>
-    <!-- Títulos y descripciones de las preferencias -->
-    <string name="pref_title_dark_mode">Tema oscuro</string>
-    <string name="pref_summary_dark_mode">Activa o desactiva el modo oscuro</string>
 
-    <string name="pref_title_sort_order">Orden de la lista</string>
-    <string name="pref_summary_sort_order">Selecciona cómo quieres ordenar los libros</string>
-
-    <string name="pref_title_favorite_cats">Categorías favoritas</string>
-    <string name="pref_summary_favorite_cats">Elige las categorías que más te gustan</string>
-
-    <string name="book_cover">Imagen del libro</string>
-    <string name="favorite">Marcar como favorito</string>
-
-    <string name="fab_users">Ver usuarios</string>
-
+    <!-- Acciones / Botones -->
     <string name="action_map">Ver Mapa</string>
     <string name="action_register_book">Registrar Libro</string>
     <string name="action_view_favorites">Favoritos</string>
 
-    <string name="fab_add_user">Añadir usuario</string>
-
-    <!-- Para el menú de Ajustes -->
+    <!-- Ajustes -->
     <string name="menu_settings">Ajustes</string>
 
+    <!-- Campos y etiquetas -->
+    <string name="book_cover">Imagen del libro</string>
+    <string name="favorite">Marcar como favorito</string>
+    <string name="fab_add_user">Añadir usuario</string>
+    <string name="fab_users">Ver usuarios</string>
 
+    <!-- Preferencias -->
+    <string name="pref_title_dark_mode">Tema oscuro</string>
+    <string name="pref_summary_dark_mode">Activa o desactiva el modo oscuro</string>
+    <string name="pref_title_favorite_cats">Categorías favoritas</string>
+    <string name="pref_summary_favorite_cats">Elige las categorías que más te gustan</string>
+    <string name="pref_title_sort_order">Orden de la lista</string>
+    <string name="pref_summary_sort_order">Selecciona cómo quieres ordenar los libros</string>
 
+    <!-- Mensajes comunes -->
+    <string name="error_fields_required">Todos los campos son obligatorios</string>
+    <string name="error_invalid_date">Formato de fecha incorrecto. Usa yyyy-MM-dd</string>
+    <string name="message_user_registered">Usuario registrado correctamente</string>
+    <string name="error_internal_api">Error interno en la API</string>
+    <string name="confirm_delete_user">¿Estás seguro de que quieres eliminar este usuario?</string>
+
+    <!-- Diálogos -->
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
 </resources>
