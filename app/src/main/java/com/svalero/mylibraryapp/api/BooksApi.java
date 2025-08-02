@@ -2,6 +2,9 @@ package com.svalero.mylibraryapp.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 import com.svalero.mylibraryapp.domain.User;
 
 import java.time.LocalDate;
@@ -17,12 +20,16 @@ public class BooksApi {
         if (api == null) {
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(LocalDate.class,
-                            (com.google.gson.JsonSerializer<LocalDate>) (src, typeOfSrc, context) ->
-                                    new com.google.gson.JsonPrimitive(src.toString()))
+                            (JsonSerializer<LocalDate>) (src, typeOfSrc, context) ->
+                                    new JsonPrimitive(src.toString()))
+                    .registerTypeAdapter(LocalDate.class,
+                            (JsonDeserializer<LocalDate>) (json, typeOfT, context) ->
+                                    LocalDate.parse(json.getAsString()))
                     .create();
 
+
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.0.16:8082/") // o la IP real
+                    .baseUrl("http://192.168.0.16:8082/") // La IP de mi equipo
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
 
