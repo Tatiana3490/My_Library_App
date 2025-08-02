@@ -20,7 +20,7 @@
             android:id="@+id/item_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre del Usuario"
+            android:text="@string/user_name_placeholder"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/black" />
@@ -30,7 +30,7 @@
             android:id="@+id/item_userEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="correo@ejemplo.com"
+            android:text="@string/user_email_placeholder"
             android:textSize="14sp"
             android:textColor="@android:color/darker_gray" />
     </LinearLayout>

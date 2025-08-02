@@ -27,69 +27,74 @@ import java.util.List;
 
 public class BookListView extends AppCompatActivity implements BookListContract.View {
 
-    // --- Atributos principales ---
     private BookAdapter bookAdapter;
     private AppDatabase db;
     private BookDao bookDao;
-    private ArrayList<Book> bookList;
+    private ArrayList<Book> bookList; // 💡 Declaración aquí, inicialización más abajo
     private BookListContract.Presenter presenter;
     private FloatingActionButton fabViewUsers;
 
     public static final int REQUEST_BOOK_DETAIL = 3;
 
-    // --- Ciclo de vida: creación de la actividad ---
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list_view);
 
-        // Inicializa MVP
         presenter = new BookListPresenter(this, getApplicationContext());
 
-        // Inicializa Room DB
+        // Inicializa la base de datos
         db = Room.databaseBuilder(
                 getApplicationContext(),
                 AppDatabase.class,
                 "mylibraryapp-db"
         ).allowMainThreadQueries().build();
-
         bookDao = db.bookDao();
 
-        // Inicializa RecyclerView
+        //Inicializa la lista para que no sea null (era tu error)
         bookList = new ArrayList<>();
+
+        // Si la base de datos está vacía, añade libros de prueba
+        if (bookDao.getAllBooks().isEmpty()) {
+            Book book1 = new Book("1984", "Ciencia Ficción", 1, 328, 19.99, false, 40.4168, -3.7038);
+            Book book2 = new Book("Fahrenheit 451", "Distopía", 2, 249, 10.50, true, 48.8566, 2.3522);
+            bookDao.insert(book1);
+            bookDao.insert(book2);
+        }
+
+        // Inicializa el RecyclerView y su adaptador
         RecyclerView booksView = findViewById(R.id.books_view);
         booksView.setLayoutManager(new LinearLayoutManager(this));
         bookAdapter = new BookAdapter(bookList, this);
         booksView.setAdapter(bookAdapter);
 
-        // FAB para ver usuarios
+        // Botón flotante para ir a la vista de usuarios
         fabViewUsers = findViewById(R.id.fab_view_users);
         fabViewUsers.setOnClickListener(v -> {
             startActivity(new Intent(this, UserListView.class));
         });
+
+        // Carga inicial de libros
+        reloadBooksFromRoom();
     }
 
-    // --- Se llama al volver a esta pantalla ---
     @Override
     protected void onResume() {
         super.onResume();
-        reloadBooksFromRoom(); // También se podría llamar presenter.loadBooks() para forzar API
+        reloadBooksFromRoom();
     }
 
-    // --- Mensaje si estás en modo sin conexión ---
     @Override
     public void showOfflineMessage() {
         Toast.makeText(this, "Estás viendo datos en modo sin conexión", Toast.LENGTH_LONG).show();
     }
 
-    // --- Crea el menú superior (action bar) ---
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar, menu);
         return true;
     }
 
-    // --- Maneja clics en los elementos del menú ---
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
@@ -110,30 +115,24 @@ public class BookListView extends AppCompatActivity implements BookListContract.
         }
     }
 
-
-    // --- Método adicional para registrar un libro (desde layout) ---
     public void registerBook(View view) {
         startActivityForResult(new Intent(this, AddBookView.class), 1);
     }
 
-    // --- Recarga libros desde Room local y actualiza la vista ---
     private void reloadBooksFromRoom() {
-        bookList.clear();
+        bookList.clear(); // ← aquí te explotaba antes porque `bookList` era null
         bookList.addAll(bookDao.getAllBooks());
         bookAdapter.notifyDataSetChanged();
     }
 
-    // --- Recibe el resultado de otras actividades ---
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK && (requestCode == 1 || requestCode == 2)) {
             reloadBooksFromRoom();
         }
     }
 
-    // --- Métodos de la interfaz `View` del contrato MVP ---
     @Override
     public void listBooks(List<Book> bookList) {
         this.bookList.clear();

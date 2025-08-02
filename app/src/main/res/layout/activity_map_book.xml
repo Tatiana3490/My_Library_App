@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Mapa de Mapbox -->
+    <!-- Mapa de Mapbox ocupando todo el fondo -->
     <com.mapbox.maps.MapView
         android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         mapbox:mapbox_cameraTargetLat="40.4168"
         mapbox:mapbox_cameraTargetLng="-3.7038"
-        mapbox:mapbox_cameraZoom="10" />
+        mapbox:mapbox_cameraZoom="10"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Botón Zoom In -->
+    <!-- Botón de Zoom In -->
     <Button
         android:id="@+id/btn_zoom_in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="Aumentar zoom"
         android:text="+"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:layout_alignParentTop="true" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Botón Zoom Out -->
+    <!-- Botón de Zoom Out -->
     <Button
         android:id="@+id/btn_zoom_out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:text="-"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/btn_zoom_in"
-        android:layout_margin="16dp" />
+        android:contentDescription="Disminuir zoom"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/btn_zoom_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

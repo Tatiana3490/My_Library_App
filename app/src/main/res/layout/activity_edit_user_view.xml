@@ -14,7 +14,7 @@
             android:id="@+id/et_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
+            android:hint="@string/label_name"
             android:inputType="textPersonName" />
 
         <!-- Username -->
@@ -22,7 +22,7 @@
             android:id="@+id/et_user_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre de usuario"
+            android:hint="@string/label_username"
             android:inputType="text" />
 
         <!-- Email -->
@@ -30,7 +30,7 @@
             android:id="@+id/et_user_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Correo electrónico"
+            android:hint="@string/label_email"
             android:inputType="textEmailAddress" />
 
         <!-- Contraseña nueva -->
@@ -38,7 +38,7 @@
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nueva contraseña (opcional)"
+            android:hint="@string/hint_new_password_optional"
             android:inputType="textPassword" />
 
         <!-- Estado activo -->
@@ -46,14 +46,14 @@
             android:id="@+id/switch_active"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Usuario activo" />
+            android:text="@string/label_active" />
 
         <!-- Botón de guardar -->
         <Button
             android:id="@+id/btn_save_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar cambios"
+            android:text="@string/btn_save_changes"
             android:layout_marginTop="16dp" />
 
     </LinearLayout>

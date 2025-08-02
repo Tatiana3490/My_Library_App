@@ -6,21 +6,21 @@
     <item
         android:id="@+id/action_map"
         android:icon="@android:drawable/ic_dialog_map"
-        android:title="Ver mapa"
+        android:title="@string/action_map"
         app:showAsAction="always" />
 
     <!-- Registrar libro -->
     <item
         android:id="@+id/action_register_book"
         android:icon="@android:drawable/ic_input_add"
-        android:title="Registrar libro"
+        android:title="@string/action_register_book"
         app:showAsAction="always" />
 
     <!-- Favoritos -->
     <item
         android:id="@+id/action_view_favorites"
         android:icon="@drawable/ic_star_filled"
-        android:title="Favoritos"
+        android:title="@string/action_view_favorites"
         app:showAsAction="ifRoom" />
 
     <!-- Configuración -->

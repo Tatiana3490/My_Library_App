@@ -1,4 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
+
     <!-- Nombre de la app -->
     <string name="app_name">My Library App</string>
 
@@ -6,15 +7,25 @@
     <string name="action_map">Ver Mapa</string>
     <string name="action_register_book">Registrar Libro</string>
     <string name="action_view_favorites">Favoritos</string>
+    <string name="fab_add_user">Añadir usuario</string>
+    <string name="fab_users">Ver usuarios</string>
+    <string name="btn_register">Registrar</string>
+    <string name="btn_edit">Editar</string>
+    <string name="btn_delete">Eliminar</string>
+    <string name="btn_cancel">Cancelar</string>
 
-    <!-- Ajustes -->
+    <!-- Menú / Ajustes -->
     <string name="menu_settings">Ajustes</string>
 
     <!-- Campos y etiquetas -->
+    <string name="label_name">Nombre</string>
+    <string name="label_username">Usuario</string>
+    <string name="label_password">Contraseña</string>
+    <string name="label_email">Correo electrónico</string>
+    <string name="label_creation_date">Fecha de creación</string>
+    <string name="label_active">Activo</string>
     <string name="book_cover">Imagen del libro</string>
     <string name="favorite">Marcar como favorito</string>
-    <string name="fab_add_user">Añadir usuario</string>
-    <string name="fab_users">Ver usuarios</string>
 
     <!-- Preferencias -->
     <string name="pref_title_dark_mode">Tema oscuro</string>
@@ -30,8 +41,40 @@
     <string name="message_user_registered">Usuario registrado correctamente</string>
     <string name="error_internal_api">Error interno en la API</string>
     <string name="confirm_delete_user">¿Estás seguro de que quieres eliminar este usuario?</string>
+    <string name="message_user_deleted">Usuario eliminado</string>
+    <string name="error_loading_data">Error al cargar los datos</string>
+    <string name="message_loading">Cargando...</string>
 
     <!-- Diálogos -->
     <string name="yes">Sí</string>
     <string name="no">No</string>
+
+    <string name="hint_book_title">Título</string>
+    <string name="hint_book_genre">Género</string>
+    <string name="btn_save">Guardar</string>
+
+    <string name="label_book_title">Título del libro</string>
+    <string name="label_genre_sample">Género: Ciencia ficción</string>
+    <string name="label_pages_sample">Páginas: 250</string>
+    <string name="label_coordinates_sample">Lat: 39.8628, Lon: -4.0273</string>
+
+    <string name="hint_new_password_optional">Nueva contraseña (opcional)</string>
+    <string name="btn_save_changes">Guardar cambios</string>
+
+    <string name="title_favorite_books">Libros Favoritos</string>
+
+    <string name="hint_title">Título</string>
+    <string name="hint_author">Autor</string>
+    <string name="hint_genre">Género</string>
+    <string name="hint_category_id">Categoría (ID)</string>
+    <string name="hint_pages">Número de páginas</string>
+    <string name="hint_price">Precio</string>
+    <string name="label_available">Disponible</string>
+    <string name="btn_add_book">Añadir libro</string>
+
+    <string name="book_title_placeholder">Título del libro</string>
+
+    <string name="user_name_placeholder">Nombre del Usuario</string>
+    <string name="user_email_placeholder">correo@ejemplo.com</string>
+
 </resources>

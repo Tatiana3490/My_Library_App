@@ -19,62 +19,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Título del libro -->
         <EditText
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Título"
+            android:hint="@string/hint_title"
             android:inputType="text" />
 
-        <!-- Autor del libro -->
         <EditText
             android:id="@+id/author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Autor"
+            android:hint="@string/hint_author"
             android:inputType="text" />
 
-        <!-- Género del libro -->
         <EditText
             android:id="@+id/genre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Género"
+            android:hint="@string/hint_genre"
             android:inputType="text" />
 
-        <!-- Categoría del libro (id) -->
         <EditText
             android:id="@+id/bookCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Categoría (ID)"
+            android:hint="@string/hint_category_id"
             android:inputType="number" />
 
-        <!-- Número de páginas -->
         <EditText
             android:id="@+id/pages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Número de páginas"
+            android:hint="@string/hint_pages"
             android:inputType="number" />
 
-        <!-- Precio del libro -->
         <EditText
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Precio"
+            android:hint="@string/hint_price"
             android:inputType="numberDecimal" />
 
-        <!-- Checkbox para marcar si está disponible -->
         <CheckBox
             android:id="@+id/available"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Disponible" />
+            android:text="@string/label_available" />
     </LinearLayout>
-
 
     <!-- MAPA para seleccionar ubicación -->
     <com.mapbox.maps.MapView
@@ -94,7 +86,7 @@
         android:id="@+id/add_book_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Añadir libro"
+        android:text="@string/btn_add_book"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

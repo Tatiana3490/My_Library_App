@@ -20,73 +20,127 @@ import com.svalero.mylibraryapp.R;
 import com.svalero.mylibraryapp.domain.Book;
 import com.svalero.mylibraryapp.util.MapUtil;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class MapBookView extends AppCompatActivity implements Style.OnStyleLoaded{
+/**
+ * Activity que muestra un mapa con marcadores para cada libro de la lista.
+ * Utiliza Mapbox para visualizar la información geolocalizada de los libros.
+ */
+public class MapBookView extends AppCompatActivity implements Style.OnStyleLoaded {
 
-    private ArrayList<Book> bookList;
-    private MapView mapView;
-    private PointAnnotationManager pointAnnotationManager;
-    private Button btnZoomIn, btnZoomOut;
-    private double zoomLevel = 14.0;
+    private List<Book> bookList; // Lista de libros recibida por intent
+    private MapView mapView; // Vista del mapa
+    private PointAnnotationManager annotationManager; // Gestor de marcadores
+    private Button zoomInButton, zoomOutButton; // Botones de zoom
+    private double zoomLevel = 14.0; // Nivel de zoom inicial
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_book);
 
+        initializeUI();            // Vincula los elementos visuales
+        retrieveBookList();       // Obtiene los libros del intent
+
+        // Carga el estilo del mapa y aplica los marcadores cuando esté listo
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, this);
+
+        // Inicializa el gestor de anotaciones para poner marcadores
+        annotationManager = MapUtil.initializePointAnnotationManager(mapView);
+
+        setupZoomControls(); // Asigna listeners a los botones de zoom
+    }
+
+    /**
+     * Inicializa referencias a las vistas del layout.
+     */
+    private void initializeUI() {
+        mapView = findViewById(R.id.mapView);
+        zoomInButton = findViewById(R.id.btn_zoom_in);
+        zoomOutButton = findViewById(R.id.btn_zoom_out);
+    }
+
+    /**
+     * Extrae la lista de libros enviada desde otra Activity.
+     */
+    private void retrieveBookList() {
         Intent intent = getIntent();
         bookList = intent.getParcelableArrayListExtra("bookList");
-
-        mapView = findViewById(R.id.mapView);
-        btnZoomIn = findViewById(R.id.btn_zoom_in);
-        btnZoomOut = findViewById(R.id.btn_zoom_out);
-
-        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, this);
-        pointAnnotationManager = MapUtil.initializePointAnnotationManager(mapView);
-
-        // Configurar botones de zoom
-        btnZoomIn.setOnClickListener(v -> {
-            zoomLevel += 1.0;
-            updateZoom();
-        });
-
-        btnZoomOut.setOnClickListener(v -> {
-            zoomLevel -= 1.0;
-            updateZoom();
-        });
-    }
-    private void updateZoom() {
-        mapView.getMapboxMap().setCamera(new CameraOptions.Builder()
-                .zoom(zoomLevel)
-                .build());
     }
 
-    private void viewBooks() {
+    /**
+     * Configura la lógica de zoom para los botones + y -.
+     */
+    private void setupZoomControls() {
+        zoomInButton.setOnClickListener(v -> changeZoom(1));
+        zoomOutButton.setOnClickListener(v -> changeZoom(-1));
+    }
+
+    /**
+     * Cambia el nivel de zoom del mapa.
+     *
+     * @param delta el valor a incrementar o decrementar
+     */
+    private void changeZoom(double delta) {
+        zoomLevel += delta;
+        mapView.getMapboxMap().setCamera(
+                new CameraOptions.Builder()
+                        .zoom(zoomLevel)
+                        .build()
+        );
+    }
+
+    /**
+     * Añade marcadores al mapa para todos los libros disponibles.
+     */
+    private void displayBookMarkers() {
         if (bookList == null || bookList.isEmpty()) {
-            Log.e("MapBookView", "La lista de libros está vacía o es null");
+            Log.w("MapBookView", "No books to display on the map.");
             return;
         }
-        for ( Book book : bookList) {
-            addMarker(book.getTitle(), book.getLatitude(), book.getLongitude());
+
+        for (Book book : bookList) {
+            addMarkerForBook(book);
         }
     }
 
-    private void addMarker(String message, double latitude, double longitude) {
-        PointAnnotationOptions marker = new PointAnnotationOptions()
+    /**
+     * Añade un marcador individual al mapa para un libro.
+     * Ignora libros sin coordenadas válidas.
+     *
+     * @param book el libro del que se desea mostrar la ubicación
+     */
+    private void addMarkerForBook(Book book) {
+        // Opcional: evita mostrar libros sin ubicación definida
+        if (book.getLatitude() == 0 && book.getLongitude() == 0) {
+            Log.d("MapBookView", "Book '" + book.getTitle() + "' has no coordinates.");
+            return;
+        }
+
+        PointAnnotationOptions options = new PointAnnotationOptions()
                 .withIconImage(BitmapFactory.decodeResource(getResources(), R.mipmap.red_marker))
-                .withTextField(message)
-                .withPoint(Point.fromLngLat(longitude, latitude));
-        pointAnnotationManager.create(marker);
+                .withTextField(book.getTitle())
+                .withPoint(Point.fromLngLat(book.getLongitude(), book.getLatitude()));
+
+        annotationManager.create(options);
     }
 
-    public void registerBook (View view) {
+    /**
+     * Abre la pantalla para registrar un nuevo libro.
+     *
+     * @param view botón pulsado (desde XML)
+     */
+    public void registerBook(View view) {
         Intent intent = new Intent(this, AddBookView.class);
         startActivity(intent);
     }
 
+    /**
+     * Método llamado cuando el estilo del mapa está completamente cargado.
+     * Se utiliza para colocar los marcadores después de que el mapa está listo.
+     */
     @Override
     public void onStyleLoaded(@NonNull Style style) {
-        viewBooks();
+        displayBookMarkers();
     }
 }

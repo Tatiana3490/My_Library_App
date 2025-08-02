@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     android:padding="8dp">
 
-    <!-- Título opcional -->
+    <!-- Título de favoritos -->
     <TextView
         android:id="@+id/favorite_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Libros Favoritos"
+        android:text="@string/title_favorite_books"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"

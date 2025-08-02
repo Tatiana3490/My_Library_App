@@ -14,7 +14,7 @@
             android:id="@+id/tv_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nombre"
+            android:text="@string/label_name"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -23,7 +23,7 @@
             android:id="@+id/tv_user_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email"
+            android:text="@string/label_email"
             android:layout_marginTop="8dp" />
 
         <!-- Estado activo -->
@@ -31,7 +31,7 @@
             android:id="@+id/tv_user_active"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Estado"
+            android:text="@string/label_active"
             android:layout_marginTop="8dp" />
 
         <!-- Fecha de creación -->
@@ -39,7 +39,7 @@
             android:id="@+id/tv_creation_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fecha de creación"
+            android:text="@string/label_creation_date"
             android:layout_marginTop="8dp" />
 
         <!-- Botón Editar -->
@@ -47,7 +47,7 @@
             android:id="@+id/btn_edit_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Editar usuario"
+            android:text="@string/btn_edit"
             android:layout_marginTop="16dp" />
 
         <!-- Botón Eliminar -->
@@ -55,7 +55,7 @@
             android:id="@+id/btn_delete_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Eliminar usuario"
+            android:text="@string/btn_delete"
             android:backgroundTint="@android:color/holo_red_light"
             android:textColor="@android:color/white"
             android:layout_marginTop="8dp" />

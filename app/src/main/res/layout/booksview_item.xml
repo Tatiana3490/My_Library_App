@@ -13,24 +13,24 @@
         android:layout_height="80dp"
         android:contentDescription="@string/book_cover"
         android:src="@mipmap/book"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:scaleType="centerCrop" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <!-- Título del libro -->
     <TextView
         android:id="@+id/item_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Título del libro"
+        android:text="@string/book_title_placeholder"
         android:textStyle="bold"
         android:textSize="16sp"
         android:maxLines="2"
+        android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@id/item_image"
         app:layout_constraintTop_toTopOf="@id/item_image"
-        app:layout_constraintEnd_toStartOf="@id/item_favorite_button"
-        android:layout_marginStart="8dp" />
+        app:layout_constraintEnd_toStartOf="@id/item_favorite_button" />
 
     <!-- Botón de favorito -->
     <ImageButton
@@ -44,4 +44,5 @@
         app:layout_constraintTop_toTopOf="@id/item_image"
         app:layout_constraintBottom_toBottomOf="@id/item_image"
         app:tint="@color/favorite_orange" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

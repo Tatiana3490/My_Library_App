@@ -11,7 +11,7 @@
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Título del libro"
+        android:text="@string/label_book_title"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/genre"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Género: Ciencia ficción"
+        android:text="@string/label_genre_sample"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         android:id="@+id/pages"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Páginas: 250"
+        android:text="@string/label_pages_sample"
         app:layout_constraintTop_toBottomOf="@id/genre"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,13 +45,13 @@
         android:id="@+id/book_coordinates"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Lat: 39.8628, Lon: -4.0273"
+        android:text="@string/label_coordinates_sample"
         app:layout_constraintTop_toBottomOf="@id/pages"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"/>
 
-    <!-- Mapbox MapView -->
+    <!-- Mapa -->
     <com.mapbox.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="0dp"
@@ -66,7 +66,7 @@
         android:id="@+id/btn_edit_book"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Editar"
+        android:text="@string/btn_edit"
         app:layout_constraintTop_toBottomOf="@id/mapView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_delete_book"
@@ -78,11 +78,10 @@
         android:id="@+id/btn_delete_book"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Eliminar"
+        android:text="@string/btn_delete"
         app:layout_constraintTop_toBottomOf="@id/mapView"
         app:layout_constraintStart_toEndOf="@id/btn_edit_book"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="8dp"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

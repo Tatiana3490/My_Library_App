@@ -7,9 +7,11 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+
 /**
  * Representa un libro que se almacena en Room y se puede pasar entre Activities (Parcelable).
  */
+
 @Entity(tableName = "books")
 public class Book implements Parcelable {
 
