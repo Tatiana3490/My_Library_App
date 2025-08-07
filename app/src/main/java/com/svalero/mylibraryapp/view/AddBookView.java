@@ -24,7 +24,9 @@ import com.mapbox.maps.plugin.gestures.GesturesUtils;
 import com.mapbox.maps.plugin.gestures.OnMapClickListener;
 import com.svalero.mylibraryapp.R;
 import com.svalero.mylibraryapp.contract.RegisterBookContract;
+import com.svalero.mylibraryapp.domain.Author;
 import com.svalero.mylibraryapp.domain.Book;
+import com.svalero.mylibraryapp.domain.BookCategory;
 import com.svalero.mylibraryapp.presenter.RegisterBookPresenter;
 import com.svalero.mylibraryapp.util.MapUtil;
 
@@ -63,17 +65,19 @@ public class AddBookView extends AppCompatActivity implements RegisterBookContra
             String pagesStr = ((EditText) findViewById(R.id.pages)).getText().toString().trim();
             String priceStr = ((EditText) findViewById(R.id.price)).getText().toString().trim();
             String categoryIdStr = ((EditText) findViewById(R.id.bookCategory)).getText().toString().trim();
+            String authorIdStr = ((EditText) findViewById(R.id.authorId)).getText().toString().trim();
             boolean available = ((CheckBox) findViewById(R.id.available)).isChecked();
 
-            // Validaciones de campos
-            if (title.isEmpty() || genre.isEmpty() || pagesStr.isEmpty() || priceStr.isEmpty() || categoryIdStr.isEmpty()) {
+            if (title.isEmpty() || genre.isEmpty() || pagesStr.isEmpty() ||
+                    priceStr.isEmpty() || categoryIdStr.isEmpty() || authorIdStr.isEmpty()) {
                 showErrorMessage("Por favor, completa todos los campos.");
                 return;
             }
 
             int pages = Integer.parseInt(pagesStr);
             double price = Double.parseDouble(priceStr);
-            int categoryId = Integer.parseInt(categoryIdStr);
+            long categoryId = Long.parseLong(categoryIdStr);
+            long authorId = Long.parseLong(authorIdStr);
 
             if (pages <= 0) {
                 showErrorMessage("El número de páginas debe ser mayor que 0.");
@@ -85,15 +89,23 @@ public class AddBookView extends AppCompatActivity implements RegisterBookContra
                 return;
             }
 
-            Book book = new Book(title, genre, categoryId, pages, price, available, currentPoint.latitude(), currentPoint.longitude());
+            // Creamos objetos mínimos con ID
+            BookCategory category = new BookCategory("", "", true, null, 0);
+            category.setId(categoryId);
+
+            Author author = new Author(authorId);
+
+            Book book = new Book(title, genre, categoryId, pages, price, available,
+                    currentPoint.latitude(), currentPoint.longitude(), category, author);
             book.setFavorite(false);
 
             presenter.registerBook(book);
 
         } catch (NumberFormatException e) {
-            showErrorMessage("Introduce valores válidos para páginas, precio y categoría.");
+            showErrorMessage("Introduce valores válidos para páginas, precio, categoría y autor.");
         }
     }
+
 
     @Override
     public void showErrorMessage(String message) {

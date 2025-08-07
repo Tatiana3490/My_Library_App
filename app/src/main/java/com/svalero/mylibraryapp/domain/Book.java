@@ -17,10 +17,11 @@ public class Book implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
-
     private String title;
     private String genre;
-    private long categoryId;
+    //  private long categoryId;
+    private BookCategory category;
+    private Author author;
     private int pages;
     private double price;
     private boolean available;
@@ -30,16 +31,18 @@ public class Book implements Parcelable {
 
     // Constructor principal para usar al crear un libro
     public Book(String title, String genre, long categoryId, int pages, double price,
-                boolean available, double latitude, double longitude) {
+                boolean available, double latitude, double longitude, BookCategory category, Author author) {
         this.title = title;
         this.genre = genre;
-        this.categoryId = categoryId;
+      //  this.categoryId = categoryId;
         this.pages = pages;
         this.price = price;
         this.available = available;
         this.latitude = latitude;
         this.longitude = longitude;
         this.favorite = false; // por defecto no favorito
+        this.category = category;
+        this.author = author;
     }
 
     // Constructor vacío por si Room o Gson lo necesitan
@@ -51,13 +54,15 @@ public class Book implements Parcelable {
         id = in.readLong();
         title = in.readString();
         genre = in.readString();
-        categoryId = in.readLong();
+      //  categoryId = in.readLong();
         pages = in.readInt();
         price = in.readDouble();
         available = in.readByte() != 0;
         latitude = in.readDouble();
         longitude = in.readDouble();
         favorite = in.readByte() != 0;
+        category = in.readParcelable(BookCategory.class.getClassLoader());
+        author = in.readParcelable(Author.class.getClassLoader());
     }
 
     // Parcelable: se necesita para enviar libros entre Activities
@@ -99,13 +104,13 @@ public class Book implements Parcelable {
         this.genre = genre;
     }
 
-    public long getCategoryId() {
+   /* public long getCategoryId() {
         return categoryId;
-    }
+    }*/
 
-    public void setCategoryId(long categoryId) {
+   /* public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
-    }
+    }*/
 
     public int getPages() {
         return pages;
@@ -155,6 +160,22 @@ public class Book implements Parcelable {
         this.favorite = favorite;
     }
 
+    public BookCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(BookCategory category) {
+        this.category = category;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
     // --- Métodos requeridos por Parcelable ---
 
     @Override
@@ -167,13 +188,15 @@ public class Book implements Parcelable {
         dest.writeLong(id);
         dest.writeString(title);
         dest.writeString(genre);
-        dest.writeLong(categoryId);
+    //    dest.writeLong(categoryId);
         dest.writeInt(pages);
         dest.writeDouble(price);
         dest.writeByte((byte) (available ? 1 : 0));
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeByte((byte) (favorite ? 1 : 0));
+        dest.writeParcelable(category, flags);
+        dest.writeParcelable(author, flags);
     }
 
     // --- Para debugging/logs bonitos ---

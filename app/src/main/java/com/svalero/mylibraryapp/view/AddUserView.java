@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
 import com.svalero.mylibraryapp.R;
 import com.svalero.mylibraryapp.contract.RegisterUserContract;
 import com.svalero.mylibraryapp.domain.User;
@@ -81,18 +82,13 @@ public class AddUserView extends AppCompatActivity implements RegisterUserContra
         }
 
 
-        // Convertimos el texto a LocalDate con formato correcto
-        LocalDate creationDate;
-        try {
-            creationDate = LocalDate.parse(dateText, dateFormatter);
-        } catch (Exception e) {
-            Toast.makeText(this, "Formato de fecha incorrecto. Usa yyyy-MM-dd", Toast.LENGTH_LONG).show();
-            return;
-        }
-
         // Creamos el usuario y lo enviamos al presenter
-        User user = new User(name, username, password, email, creationDate, active);
+        User user = new User(name, username, password, email, dateText, active);
+        // Mostrar el JSON enviado en Logcat
+        Gson gson = new Gson();
+        Log.d("DEBUG", "Enviando JSON: " + gson.toJson(user));
         presenter.registerUser(user);
+
     }
 
     // --- Métodos que recibe desde el presenter si fue bien o mal ---

@@ -18,13 +18,13 @@ public class User implements Parcelable {
     private String username;
     private String password;
     private String email;
-    private LocalDate creationDate; // Vamos a usar LocalDate en TODO
+    private String creationDate; // Vamos a usar LocalDate en TODO
     private boolean active;
 
     /**
      * Constructor usado para crear un usuario desde cero.
      */
-    public User(String name, String username, String password, String email, LocalDate creationDate, boolean active) {
+    public User(String name, String username, String password, String email, String creationDate, boolean active) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -43,7 +43,7 @@ public class User implements Parcelable {
         password = in.readString();
         email = in.readString();
         String dateString = in.readString(); // Recuperamos fecha como string
-        creationDate = LocalDate.parse(dateString); // Parseamos el string a LocalDate
+        creationDate = String.valueOf(LocalDate.parse(dateString));
         active = in.readByte() != 0; // 1 = true, 0 = false
     }
 
@@ -91,11 +91,11 @@ public class User implements Parcelable {
         this.id = id;
     }
 
-    public LocalDate getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
